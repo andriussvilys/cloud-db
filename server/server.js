@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 const cors = require('cors');
 
-
 var app = express();
 app.use(cors());
 
@@ -14,24 +13,26 @@ var bookingsRouter = require('./routes/bookings');
 const { connect } = require('./mongo');
 
 
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/guestsRouter', guestsRouter)
-app.use('/menusRouter', menusRouter)
-app.use('/dishesRouter', dishesRouter)
-app.use('/bookingsRouter', bookingsRouter)
+app.use( indexRouter);
+app.use( guestsRouter)
+app.use( menusRouter)
+app.use( dishesRouter)
+app.use( bookingsRouter)
 
 const port = '5000';
 app.listen(port, () => {
     console.log(`server runs on port ${port}`)
 })
 
-connect()
+connect().then(res => {
+
+})
+
+
 
 
 module.exports = app;

@@ -7,8 +7,10 @@ function App() {
 
   useEffect(() => {
 
-    fetch("http://localhost:5000/")
+    fetch("http://localhost:5000/menus")
     .then(res => {
+      console.log("guests RES")
+      console.log(res)
       return res.text()
     })
     .then(res => {

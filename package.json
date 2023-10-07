@@ -21,6 +21,7 @@
     "frontend": "react-scripts start",
     "start": "concurrently \"npm run server\" \"npm run frontend\""
   },
+  "proxy": "http://localhost:5000/*",
   "eslintConfig": {
     "extends": [
       "react-app",

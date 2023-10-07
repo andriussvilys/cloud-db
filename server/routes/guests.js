@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+// const { db } = require('../mongo');
 
-/* GET users listing. */
+const express = require('express');
+const router = express.Router();
+
+// const guests = db.collection("guests");
+
 router.get('/guests', function(req, res, next) {
-  res.send('guests');
+  // const result = await guests.find({}).toArray()
+  console.log("GUEST QUERY")
+  res.send("GUEST result");
 });
 
 module.exports = router;

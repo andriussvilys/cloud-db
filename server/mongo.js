@@ -13,12 +13,14 @@ const client = new MongoClient(uri, {
   }
 });
 
+const db = client.db("restaurants")
+
 async function connect() {
     try {
 
         await client.connect();
 
-        await client.db("admin").command({ ping: 1 });
+        await client.db("restaurants").command({ ping: 1 });
 
         console.log("**********************************")
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -28,4 +30,4 @@ async function connect() {
     }
 }
 
-module.exports = {connect, client}
+module.exports = {connect, client, db}
