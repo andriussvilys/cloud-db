@@ -1,6 +1,8 @@
 var express = require('express');
 var path = require('path');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 var app = express();
@@ -13,7 +15,10 @@ var dishesRouter = require('./routes/dishes');
 var bookingsRouter = require('./routes/bookings');
 
 
-const uri = "mongodb+srv://andrius:andrelis@cluster0.hicvcdq.mongodb.net/?retryWrites=true&w=majority"
+const uri = process.env.MONGODB_URI
+
+console.log("uri ***************************************************")
+console.log(uri)
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -44,11 +49,7 @@ async function run() {
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    //   } finally {
-    //     // Ensures that the client will close when you finish/error
-    //     await client.close();
-    //   }
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
     }
     catch(err){
         console.log(err)
