@@ -27,8 +27,9 @@ type Inputs = {
     phone?: string
 }
 
-type BookingCreateProps = {
-    values: Inputs
+type BookingFormProps = {
+    values: Inputs,
+    disabled?: boolean
 }
 
 export enum InputFieldNames {
@@ -39,13 +40,21 @@ export enum InputFieldNames {
     PHONE="phone",
 }
 
-export const BookingCreate = (props:BookingCreateProps) => {
+export const BookingForm = (props:BookingFormProps) => {
+
+    const {
+        name,
+        date,
+        time,
+        tableSize,
+        phone
+    } = props.values;
 
     const {
         handleSubmit,
         formState: { errors },
         control
-      } = useForm<Inputs>({values: props.values})
+      } = useForm<Inputs>()
 
       const onSubmit = async (data:Inputs) => {
         const postDataRes = await postData("http://localhost:5000/bookings", data)
@@ -55,21 +64,17 @@ export const BookingCreate = (props:BookingCreateProps) => {
     return(
         <form onSubmit={handleSubmit(onSubmit)}>
             
-            <div style={{display: "flex", flexDirection:"column", width:"60ch"}}>
+            <div className='tableContainer'>
 
-                <FormField name={InputFieldNames.NAME} control={control} type="text" label={"Name"} field={{value: "Andrius"}}/>
+                <FormField disabled={props.disabled} required={true} name={InputFieldNames.NAME} control={control} type="text" label={"Name"} field={{value: name}}/>
+                <FormField disabled={props.disabled} required={true} name={InputFieldNames.DATE} control={control} type="date" label={"Date"} field={{value: date}}/>
+                <FormField disabled={props.disabled} required={true} name={InputFieldNames.TIME} control={control} type="time" label={"Time"} field={{value: time}}/>
+                <FormField disabled={props.disabled} required={true} name={InputFieldNames.TABLESIZE} control={control} type="number" label={"Table size"} field={{value:tableSize}}/>
+                <FormField disabled={props.disabled} required={true} name={InputFieldNames.PHONE} control={control} type="tel" label={"Phone number"} field={{value:phone}}/>
 
-                <FormField name={InputFieldNames.DATE} control={control} type="date" label={"Date"}/>
-
-                <FormField name={InputFieldNames.TIME} control={control} type="time" label={"Time"}/>
-
-                <FormField name={InputFieldNames.TABLESIZE} control={control} type="number" label={"Table size"}/>
-
-                <FormField name={InputFieldNames.PHONE} control={control} type="tel" label={"Phone number"}/>
-
+                <button  onSubmit={handleSubmit(onSubmit)} >Save</button>
             </div>
 
-            <input type="submit" />
 
         </form>
     )

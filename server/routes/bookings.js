@@ -1,4 +1,5 @@
 const { db } = require('../mongo');
+const { ObjectId } = require('mongodb');
 const express = require('express');
 const router = express.Router();
 
@@ -26,8 +27,28 @@ router.get(path, async (req, res, next) => {
 });
 
 router.post(path, async (req,res) => {
-  console.log({req: req.body})
   const result = await bookings.insertOne(req.body)
+  res.json(result)
+})
+
+router.delete(path, async (req, res) => {
+
+  const query = {_id: new ObjectId(req.body._id), ...req.params.query}
+    
+  bookings.deleteOne(query)
+  .then( delete_res => {
+
+      res.status(200).send( delete_res )
+  })
+
+  .catch( err => {
+      res.status(500).send( { error: err.message } )
+  })
+})
+
+router.put(path, async (req,res) => {
+      
+    const result = await bookings.updateOne({_id: new ObjectId(req._id)}, req.body);
     res.json(result)
 })
 

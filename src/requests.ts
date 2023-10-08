@@ -1,3 +1,5 @@
+// import { ObjectId } from "mongodb";
+
 const createRequest = (method:string, data:any):RequestInit =>{return {
     method: method, // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
@@ -17,4 +19,17 @@ export const postData = async (url = "", data = {}) => {
     // Default options are marked with *
     const response = await fetch(url, createRequest("POST", data));
     return response.json(); // parses JSON response into native JavaScript objects
+}
+
+export const updateData = async (url:string, data:any) => {
+  const response = await fetch(url, createRequest("PUT", data))
+  return response.json()
+}
+
+export const deleteData = async (url:string, data:any) => {
+  console.log("fetch - deleteData", data._id)
+  // const reqBody = {_id: new ObjectId(data._id)}
+  const reqBody = {_id: data._id}
+  const response = await fetch(url, createRequest("DELETE", reqBody))
+  return response.json()
 }

@@ -2,7 +2,6 @@
     display: flex;
     padding: 5px;
     border: 1px solid gray;
-    width: 20ch;
 }
 .entityField_name{
     font-weight: 600;
@@ -27,4 +26,13 @@ button:hover{
 }
 .deleteButton{
     background-color: palevioletred;
+}
+.tableContainer{
+ display: flex;
+ flex-direction: column;
+ max-width: 60vw;
+}
+.tableRow{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
 }

@@ -1,5 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Booking, BookingProps } from "./Booking"
+import "../../style.css"
+import { BookingHeader } from './Booking-header'
+import { BookingForm } from './BookingForm'
 
 export type BookingListProps = {
     bookings: BookingProps[]
@@ -7,14 +10,16 @@ export type BookingListProps = {
 
 export const BookingList = (props:BookingListProps) => {
     return(
-        <Fragment>
+        <div className='tableContainer'>
+            <BookingHeader/>
             {
             props.bookings.map(booking => {
                 return(
-                    <Booking {...booking} />
+                    <Booking key={booking._id} {...booking} />
                 )
             })
             }
-        </Fragment>
+            <BookingForm values={{}}/>
+        </div>
     )
 }

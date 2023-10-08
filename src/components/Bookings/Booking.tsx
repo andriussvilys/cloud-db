@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { postData } from '../../requests'
+import { deleteData, postData } from '../../requests'
 import { EntityField } from '../EntityFields'
 import "../../style.css"
 
@@ -36,16 +36,20 @@ export const Booking = (props:BookingProps) => {
       } = useForm<Inputs>({values: props})
 
       const onSubmit = async (data:Inputs) => {
-        const postDataRes = await postData("http://localhost:5000/bookings", data)
-        console.log({postDataRes})
+        const postRes = await postData("http://localhost:5000/bookings", data)
+        console.log({postRes})
+      }
+
+      const onDelete = async (data:Inputs) => {
+        const deleteRes = await deleteData("http://localhost:5000/bookings", data)
+        console.log({deleteRes})
       }
 
       const {name,date,time,tableSize,phone} = props
 
     return(
-        <form onSubmit={handleSubmit(onSubmit)}>
             
-            <div style={{display: "flex"}}>
+            <div className="tableRow">
 
             <EntityField name={"name"} value={name} />
             <EntityField name={"date"} value={date} />
@@ -54,11 +58,9 @@ export const Booking = (props:BookingProps) => {
             <EntityField name={"phone"} value={phone} />
 
             <button className="editButton">Edit</button>
-            <button className='deleteButton'>Delete</button>
+            <button className='deleteButton' onClick={() => onDelete({_id: props._id})}>Delete</button>
 
             </div>
 
-
-        </form>
     )
 }

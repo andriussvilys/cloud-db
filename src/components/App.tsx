@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { Booking, BookingProps } from './Bookings/Booking';
+import { BookingList } from './Bookings/BookingList';
 
 function App() {
 
@@ -21,12 +22,15 @@ function App() {
 
   return (
     <div className="App">
-      {(bookings as any)?.map((booking:any) => {
+      {/* {(bookings as any)?.map((booking:any) => {
 
         return (
           <Booking key={booking._id} {...booking} />
         )
-      })}
+      })} */}
+      {
+        bookings ? <BookingList bookings={bookings} /> : null
+      }
     </div>
   );
 }
