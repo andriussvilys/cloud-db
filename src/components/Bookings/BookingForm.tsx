@@ -1,35 +1,41 @@
-import React from 'react'
+import { useContext } from 'react'
 import { useForm } from "react-hook-form"
 import { FormField } from '../FormField'
-import { postData } from '../../requests'
+import { postData, updateData } from '../../requests'
+import { BookingProps } from './Booking'
+import { Button, Card } from '@wix/design-system'
+import { AppContext } from '../App'
 
-export const timestampToFormattedDate = (timestamp:number|undefined) => {
-    if(timestamp){
-        return new Date(timestamp).toLocaleDateString('lt-LT', {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric"
-        })
-    }
+export const dateToFormattedDate = (date:Date) => {
+    return date.toLocaleDateString('lt-LT', {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric"
+    })
 }
 
-export const timestampToFormattedTime = (timestamp:number|undefined) => {
-    if(timestamp){
-        return new Date(timestamp).toLocaleTimeString('lt-LT',{hour: "numeric", minute: "numeric"})
-    }
+export const dateToFormattedTime = (date:Date) => {
+    return date.toLocaleTimeString('lt-LT',{hour: "numeric", minute: "numeric"})
 }
 
-type Inputs = {
-    name?: string,
-    date?: string,
-    time?: string,
-    tableSize?: number,
-    phone?: string
+export enum FormType{
+    CREATE="POST",
+    EDIT="PUT"
 }
 
-type BookingFormProps = {
-    values: Inputs,
-    disabled?: boolean
+export type Inputs = {
+    _id?: string,
+    name: string,
+    date: Date,
+    time: Date,
+    tableSize: number,
+    phone: string
+}
+
+export interface BookingFormProps{
+    values?: BookingProps,
+    disabled?: boolean,
+    type: FormType
 }
 
 export enum InputFieldNames {
@@ -42,40 +48,62 @@ export enum InputFieldNames {
 
 export const BookingForm = (props:BookingFormProps) => {
 
-    const {
-        name,
-        date,
-        time,
-        tableSize,
-        phone
-    } = props.values;
+    const {closeModal, reloadRecords} = useContext(AppContext) 
 
     const {
         handleSubmit,
         formState: { errors },
         control
-      } = useForm<Inputs>()
+      } = useForm<Inputs>({mode: "onSubmit", defaultValues: {
+        name:props.values?.name,
+        date:props.values?.date ? new Date(props.values.date) : new Date(),
+        time:props.values?.time ? new Date(props.values.time) : new Date(),
+        tableSize: props.values?.tableSize,
+        phone: props.values?.phone
+
+      }})
 
       const onSubmit = async (data:Inputs) => {
-        const postDataRes = await postData("http://localhost:5000/bookings", data)
-        console.log({postDataRes})
+        const reqBody = {
+            _id: props.values?._id,
+            name: data.name,
+            date: new Date(data.date),
+            time: new Date((data.time as any).date),
+            tableSize: data.tableSize,
+            phone: data.phone
+        }
+        if(props.type === FormType.CREATE){
+            await postData(reqBody)
+        }
+        if(props.type === FormType.EDIT){
+            await updateData(reqBody)
+            
+        }
+        reloadRecords()
+        closeModal()
+      }
+      const onError = async (errors:any) => {
+        console.log(errors)
       }
 
     return(
-        <form onSubmit={handleSubmit(onSubmit)}>
-            
-            <div className='tableContainer'>
+        <Card>
+            <Card.Content>
+                <form onSubmit={handleSubmit(onSubmit, onError)}>
+                    
+                    <div className='tableContainer'>
 
-                <FormField disabled={props.disabled} required={true} name={InputFieldNames.NAME} control={control} type="text" label={"Name"} field={{value: name}}/>
-                <FormField disabled={props.disabled} required={true} name={InputFieldNames.DATE} control={control} type="date" label={"Date"} field={{value: date}}/>
-                <FormField disabled={props.disabled} required={true} name={InputFieldNames.TIME} control={control} type="time" label={"Time"} field={{value: time}}/>
-                <FormField disabled={props.disabled} required={true} name={InputFieldNames.TABLESIZE} control={control} type="number" label={"Table size"} field={{value:tableSize}}/>
-                <FormField disabled={props.disabled} required={true} name={InputFieldNames.PHONE} control={control} type="tel" label={"Phone number"} field={{value:phone}}/>
+                        <FormField errors={errors} disabled={props.disabled} name={InputFieldNames.NAME} control={control} type="text" label={"Name"} value={props.values?.name}/>
+                        <FormField errors={errors} disabled={props.disabled} name={InputFieldNames.DATE} control={control} type="date" label={"Date"} value={props.values?.date}/>
+                        <FormField errors={errors} disabled={props.disabled} name={InputFieldNames.TIME} control={control} type="time" label={"Time"} value={props.values?.time}/>
+                        <FormField errors={errors} disabled={props.disabled} name={InputFieldNames.TABLESIZE} control={control} type="number" label={"Table size"} value={props.values?.tableSize}/>
+                        <FormField errors={errors} disabled={props.disabled} name={InputFieldNames.PHONE} control={control} type="tel" label={"Phone number"} value={props.values?.phone}/>
 
-                <button  onSubmit={handleSubmit(onSubmit)} >Save</button>
-            </div>
+                        <Button type={"submit"} >Save</Button>
+                    </div>
 
-
-        </form>
+                </form>
+            </Card.Content>
+        </Card>
     )
 }

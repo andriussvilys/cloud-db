@@ -7,6 +7,8 @@
     "@types/node": "^20.8.3",
     "@types/react": "^18.2.25",
     "@types/react-dom": "^18.2.11",
+    "@wix/design-system": "^1.67.0",
+    "@wix/wix-ui-icons-common": "^3.8.0",
     "concurrently": "^8.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

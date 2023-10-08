@@ -1,38 +1,48 @@
-import { Fragment, HTMLInputTypeAttribute } from 'react'
+import { HTMLInputTypeAttribute } from 'react'
 import { Controller } from "react-hook-form"
 import { InputFieldNames } from './Bookings/BookingForm'
+import { Cell, Layout, StatusType, FormField as WixFormField } from '@wix/design-system'
+import { FormInput } from './FormInput'
 
 
-type ForlFieldProps = {
+export type FormFieldProps = {
     name: InputFieldNames,
     control: any,
     type: HTMLInputTypeAttribute
     label: string,
-    field?: any,
     disabled?: boolean
     required?: boolean
+    errors: any
+    value?: any
+    onChange?: any
 }
 
-export const FormField = (props : ForlFieldProps) => {
-    const {control, name, type, label, disabled, required} = props
+export const FormField = (props : FormFieldProps) => {
+
+    const {control, name, label} = props
+
+    const isNotValid = (errors:any) => {
+        if(errors[props.name]?.type === 'required'){
+            return {statusMessage: errors[props.name].message,status: 'error' as StatusType}
+        }
+        else{
+            return {statusMessage: ''}
+        }
+    }
     return(
         <Controller 
         name={name}
         control={control}
-        render={({field}) => {
+        rules={{ required: "required field" }}
+        render={({field: {onChange, ref, value}}) => {
             return(
-                <Fragment>
-                    <div style={{display: "flex", flexDirection: "column", padding: "10px"}}>
-                        <label htmlFor={name}>{label}:</label>
-                        <input 
-                        type={type}
-                        id={name} 
-                        {...field}
-                        disabled={disabled}
-                        required={required}
-                        />
-                    </div>
-                </Fragment>
+                <Layout>
+                    <Cell span={12}>
+                        <WixFormField label={label} labelPlacement="top" {...isNotValid(props.errors)}>
+                            <FormInput {...props} onChange={onChange} value={value}/>
+                        </WixFormField>
+                    </Cell>
+                </Layout>
             )
         }}
         />

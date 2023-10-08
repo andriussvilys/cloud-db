@@ -6,9 +6,6 @@ var app = express();
 app.use(cors());
 
 var indexRouter = require('./routes/index');
-var guestsRouter = require('./routes/guests');
-var menusRouter = require('./routes/menus');
-var dishesRouter = require('./routes/dishes');
 var bookingsRouter = require('./routes/bookings');
 const { connect } = require('./mongo');
 
@@ -18,9 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use( indexRouter);
-app.use( guestsRouter)
-app.use( menusRouter)
-app.use( dishesRouter)
 app.use( bookingsRouter)
 
 const port = '5000';

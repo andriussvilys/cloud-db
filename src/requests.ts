@@ -15,21 +15,19 @@ const createRequest = (method:string, data:any):RequestInit =>{return {
   }}
 
 // Example POST method implementation:
-export const postData = async (url = "", data = {}) => {
+export const postData = async (data:any) => {
     // Default options are marked with *
-    const response = await fetch(url, createRequest("POST", data));
+    const response = await fetch("http://localhost:5000/bookings", createRequest("POST", data));
     return response.json(); // parses JSON response into native JavaScript objects
 }
 
-export const updateData = async (url:string, data:any) => {
-  const response = await fetch(url, createRequest("PUT", data))
+export const updateData = async ( data:any) => {
+  const response = await fetch("http://localhost:5000/bookings", createRequest("PUT", data))
   return response.json()
 }
 
-export const deleteData = async (url:string, data:any) => {
-  console.log("fetch - deleteData", data._id)
-  // const reqBody = {_id: new ObjectId(data._id)}
+export const deleteData = async (data:any) => {
   const reqBody = {_id: data._id}
-  const response = await fetch(url, createRequest("DELETE", reqBody))
+  const response = await fetch("http://localhost:5000/bookings", createRequest("DELETE", reqBody))
   return response.json()
 }

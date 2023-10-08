@@ -12,7 +12,7 @@ router.get(path, async (req, res, next) => {
 
     if ((await bookings.countDocuments()) === 0) {
 
-      console.log("No documents found!");
+      res.status(404).send("No results")
 
     }
     const bookingsList = []
@@ -47,8 +47,16 @@ router.delete(path, async (req, res) => {
 })
 
 router.put(path, async (req,res) => {
-      
-    const result = await bookings.updateOne({_id: new ObjectId(req._id)}, req.body);
+    
+    const reqBody = {
+      name: req.body.name,
+      date: req.body.date,
+      time: req.body.time,
+      tableSize:req.body.tableSize,
+      phone: req.body.phone
+    }
+    console.log("PUT", reqBody, req.body._id)
+    const result = await bookings.updateOne({_id: new ObjectId(req.body._id)}, {$set: reqBody});
     res.json(result)
 })
 

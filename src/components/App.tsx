@@ -1,38 +1,66 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { Booking, BookingProps } from './Bookings/Booking';
+import { useEffect, useState, createContext } from 'react';
+import { BookingProps } from './Bookings/Booking';
 import { BookingList } from './Bookings/BookingList';
+import { Card, WixDesignSystemProvider } from '@wix/design-system';
+import "@wix/design-system/styles.global.css";
+import { FormModal, OpenModalActionType } from './Modal/FormModal';
 
-function App() {
+type AppContextProps = {
+  reloadRecords: () => void,
+  openModal: (action:OpenModalActionType) => void,
+  closeModal: () => void
+}
+const appContextProps:AppContextProps = {
+  reloadRecords: () => null,
+  openModal: (action:OpenModalActionType) => null,
+  closeModal: () => null
+}
+
+export const AppContext = createContext(appContextProps)
+
+export const App = () => {
 
   const [bookings, setBookings] = useState<BookingProps[]>([])
 
-  useEffect(() => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [modalAction, setModalAction] = useState<OpenModalActionType>()
 
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+  const openModal = (action:OpenModalActionType) => {
+    setModalAction(action)
+    setIsModalOpen(true)
+  }
+
+  const reloadRecords = async () => {
     fetch("http://localhost:5000/bookings", {method: "GET"})
     .then(res => {
       return res.text()
     })
     .then((res:any) => {
-      console.log(JSON.parse(res))
       setBookings(JSON.parse(res))
     })
+  }
 
+  useEffect(()=>{
+    reloadRecords()
   }, [])
 
   return (
-    <div className="App">
-      {/* {(bookings as any)?.map((booking:any) => {
-
-        return (
-          <Booking key={booking._id} {...booking} />
-        )
-      })} */}
-      {
-        bookings ? <BookingList bookings={bookings} /> : null
-      }
-    </div>
-  );
+    <WixDesignSystemProvider>
+        <AppContext.Provider value={{reloadRecords, openModal, closeModal}}>
+          {/* <ModalContextProvider> */}
+            <Card showShadow>
+              <Card.Content>
+                <BookingList bookings={bookings} />
+              </Card.Content>
+            </Card>
+            <FormModal isOpen={isModalOpen} action={modalAction} openModal={openModal} closeModal={closeModal} />
+          {/* </ModalContextProvider> */}
+        </AppContext.Provider>
+    </WixDesignSystemProvider>
+  )
 }
 
 export default App;
