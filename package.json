@@ -2,7 +2,6 @@
   "name": "cloud-db",
   "version": "0.1.0",
   "private": true,
-  "main": "./server/server.js",
   "dependencies": {
     "@testing-library/react": "^13.4.0",
     "@types/node": "^20.8.3",
@@ -32,8 +31,6 @@
     "client-install": "npm install",
     "client-build": "npm run build"
   },
-  "proxy": "https://cloud-db-26f4d57d4259.herokuapp.com",
-  "homepage": "https://cloud-db-26f4d57d4259.herokuapp.com",
   "eslintConfig": {
     "extends": [
       "react-app",
