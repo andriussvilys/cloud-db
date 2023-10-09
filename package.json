@@ -28,6 +28,7 @@
     "frontend": "react-scripts start",
     "start": "concurrently \"npm run server\" \"npm run frontend\""
   },
+  "proxy":"/",
   "eslintConfig": {
     "extends": [
       "react-app",
