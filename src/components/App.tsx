@@ -34,7 +34,7 @@ export const App = () => {
   }
 
   const reloadRecords = async () => {
-    fetch("http://localhost:5000/bookings", {method: "GET"})
+    fetch("/bookings", {method: "GET"})
     .then(res => {
       return res.text()
     })

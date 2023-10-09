@@ -12,22 +12,25 @@ const createRequest = (method:string, data:any):RequestInit =>{return {
     redirect: "follow", // manual, *follow, error
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
-  }}
+}}
+
+// const path = "http://localhost:5000/bookings"
+const path = "/bookings"
 
 // Example POST method implementation:
 export const postData = async (data:any) => {
     // Default options are marked with *
-    const response = await fetch("http://localhost:5000/bookings", createRequest("POST", data));
+    const response = await fetch(path, createRequest("POST", data));
     return response.json(); // parses JSON response into native JavaScript objects
 }
 
 export const updateData = async ( data:any) => {
-  const response = await fetch("http://localhost:5000/bookings", createRequest("PUT", data))
+  const response = await fetch(path, createRequest("PUT", data))
   return response.json()
 }
 
 export const deleteData = async (data:any) => {
   const reqBody = {_id: data._id}
-  const response = await fetch("http://localhost:5000/bookings", createRequest("DELETE", reqBody))
+  const response = await fetch(path, createRequest("DELETE", reqBody))
   return response.json()
 }
