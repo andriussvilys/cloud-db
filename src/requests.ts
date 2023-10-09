@@ -14,8 +14,8 @@ const createRequest = (method:string, data:any):RequestInit =>{return {
     body: JSON.stringify(data), // body data type must match "Content-Type" header
 }}
 
-// const path = "http://localhost:5000/bookings"
-const path = "/bookings"
+const path = "http://localhost:5000/bookings"
+// const path = "/bookings"
 
 // Example POST method implementation:
 export const postData = async (data:any) => {

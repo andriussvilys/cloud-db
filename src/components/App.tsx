@@ -39,6 +39,7 @@ export const App = () => {
       return res.text()
     })
     .then((res:any) => {
+      console.log(JSON.parse(res))
       setBookings(JSON.parse(res))
     })
   }
