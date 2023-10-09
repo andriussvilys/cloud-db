@@ -43,6 +43,10 @@ export const App = () => {
     })
   }
 
+  useEffect(()=>{
+    reloadRecords()
+  }, [])
+
   return (
     <WixDesignSystemProvider>
         <AppContext.Provider value={{reloadRecords, openModal, closeModal}}>
