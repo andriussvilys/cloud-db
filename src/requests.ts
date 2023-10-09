@@ -27,8 +27,8 @@ const getRequest = {
   referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 }
 
-const path = "http://localhost:5000/api/bookings"
-// const path = "/api/bookings"
+// const path = "http://localhost:5000/api/bookings"
+const path = "/api/bookings"
 
 export const getData = async () => {
   const response = await fetch(path, getRequest as RequestInit);
