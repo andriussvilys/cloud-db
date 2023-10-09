@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'development') {
 app.use( indexRouter);
 app.use( bookingsRouter)
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 app.listen(port, () => {
     console.log(`server runs on port ${port}`)
 })
