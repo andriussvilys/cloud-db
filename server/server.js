@@ -7,11 +7,13 @@ app.use(cors());
 
 var indexRouter = require('./routes/index');
 var bookingsRouter = require('./routes/bookings');
-const { connect } = require('./mongo');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+
+if (process.env.NODE_ENV !== 'development') {
+    app.use(express.static(path.join(__dirname, './build')));
+}
 
 app.use( indexRouter);
 app.use( bookingsRouter)
@@ -20,12 +22,6 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`server runs on port ${port}`)
 })
-
-connect().then(res => {
-
-})
-
-
 
 
 module.exports = app;
