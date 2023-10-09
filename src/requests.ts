@@ -14,8 +14,27 @@ const createRequest = (method:string, data:any):RequestInit =>{return {
     body: JSON.stringify(data), // body data type must match "Content-Type" header
 }}
 
-// const path = "http://localhost:5000/bookings"
-const path = "/bookings"
+const getRequest = {
+  method: "GET", // *GET, POST, PUT, DELETE, etc.
+  mode: "cors", // no-cors, *cors, same-origin
+  cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+  credentials: "same-origin", // include, *same-origin, omit
+  headers: {
+    "Content-Type": "application/json",
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  redirect: "follow", // manual, *follow, error
+  referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+}
+
+const path = "http://localhost:5000/api/bookings"
+// const path = "/api/bookings"
+
+export const getData = async () => {
+  const response = await fetch(path, getRequest as RequestInit);
+  console.log({response})
+  return response.json(); 
+}
 
 // Example POST method implementation:
 export const postData = async (data:any) => {

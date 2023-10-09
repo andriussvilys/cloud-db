@@ -2,6 +2,7 @@
   "name": "cloud-db",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@testing-library/react": "^13.4.0",
     "@types/node": "^20.8.3",
@@ -13,20 +14,25 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
     "mongodb": "^6.1.0",
     "nodemon": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-scripts": "5.0.1",
+    "serve": "^14.2.1",
     "typescript": "^3.2.1"
   },
   "scripts": {
+    "start": "NODE_ENV=production node server/server.js",
     "build": "react-scripts build",
+    "test": "react-scripts test",
+    "client": "react-scripts start",
+    "server": "nodemon ./server/server.js",
     "eject": "react-scripts eject",
-    "server": "npx nodemon ./server/server.js",
-    "frontend": "react-scripts start",
-    "start": "concurrently \"npm run server\" \"npm run frontend\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -34,7 +40,6 @@
       "react-app/jest"
     ]
   },
-  "proxy":"http://localhost:5000",
   "browserslist": {
     "production": [
       ">0.2%",

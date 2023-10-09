@@ -5,7 +5,7 @@ const router = express.Router();
 
 const bookings = db.collection("bookings");
 
-const path = '/bookings'
+const path = '/api/bookings'
 router.get(path, async (req, res, next) => {
 
     const cursor = bookings.find();

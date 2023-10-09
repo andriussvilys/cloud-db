@@ -4,6 +4,7 @@ import { BookingList } from './Bookings/BookingList';
 import { Card, WixDesignSystemProvider } from '@wix/design-system';
 import "@wix/design-system/styles.global.css";
 import { FormModal, OpenModalActionType } from './Modal/FormModal';
+import { getData } from '../requests';
 
 type AppContextProps = {
   reloadRecords: () => void,
@@ -34,14 +35,10 @@ export const App = () => {
   }
 
   const reloadRecords = async () => {
-    fetch("/bookings", {method: "GET"})
-    .then(res => {
-      return res.text()
-    })
-    .then((res:any) => {
-      console.log(JSON.parse(res))
-      setBookings(JSON.parse(res))
-    })
+    console.log("reload records")
+    const response = await getData()
+    console.log(response)
+    setBookings(response)
   }
 
   useEffect(()=>{
@@ -51,14 +48,12 @@ export const App = () => {
   return (
     <WixDesignSystemProvider>
         <AppContext.Provider value={{reloadRecords, openModal, closeModal}}>
-          {/* <ModalContextProvider> */}
             <Card showShadow>
               <Card.Content>
                 <BookingList bookings={bookings} />
               </Card.Content>
             </Card>
             <FormModal isOpen={isModalOpen} action={modalAction} openModal={openModal} closeModal={closeModal} />
-          {/* </ModalContextProvider> */}
         </AppContext.Provider>
     </WixDesignSystemProvider>
   )
