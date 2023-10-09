@@ -12,15 +12,16 @@ var bookingsRouter = require('./routes/bookings');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-if (process.env.NODE_ENV !== 'development') {
-  // Express will serve up production assets
-  app.use(express.static("build"));
+app.use(express.static(path.join(__dirname, '../build')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
 
-  // Express will serve up the front-end index.html file if it doesn't recognize the route
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve("build", "index.html"))
-  );
-}
+
+app.use(express.static(path.join(__dirname, '../build')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
 
 app.use( indexRouter);
 app.use( bookingsRouter)

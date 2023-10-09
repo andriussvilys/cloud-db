@@ -25,14 +25,13 @@
     "typescript": "^3.2.1"
   },
   "scripts": {
-    "start": "NODE_ENV=production node server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "client": "react-scripts start",
     "server": "nodemon ./server/server.js",
     "eject": "react-scripts eject",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "npm run build"
+    "start": "node server/server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && run build"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +39,7 @@
       "react-app/jest"
     ]
   },
+  "proxy":"http://localhost:5000",
   "browserslist": {
     "production": [
       ">0.2%",
