@@ -28,7 +28,7 @@
     "server": "node ./server/server.js",
     "frontend": "react-scripts build && react-scripts start",
     "start": "node ./server/server.js",
-    "heroku-postbuild": "npm run client-install && npm run client-build",
+    "heroku-postbuild": "npm run client-install && react-scripts build",
     "client-install": "npm install",
     "client-build": "npm run build"
   },
