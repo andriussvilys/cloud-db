@@ -24,5 +24,4 @@ app.listen(port, () => {
     console.log(`server runs on port ${port}`)
 })
 
-
 module.exports = app;
