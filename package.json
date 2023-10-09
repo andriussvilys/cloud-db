@@ -24,11 +24,10 @@
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "server": "npx nodemon ./server/server.js",
+    "server": "node ./server/server.js",
     "frontend": "react-scripts start",
     "start": "concurrently \"npm run server\" \"npm run frontend\""
   },
-  "proxy":"http://localhost:5000",
   "eslintConfig": {
     "extends": [
       "react-app",
