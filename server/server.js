@@ -9,7 +9,6 @@ var indexRouter = require('./routes/index');
 var bookingsRouter = require('./routes/bookings');
 const { connect } = require('./mongo');
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
